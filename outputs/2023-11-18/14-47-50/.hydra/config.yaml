@@ -1,0 +1,7 @@
+hyperparameters:
+  batch_size: 1
+  lr: 0.1
+  num_epochs: 1#50
+dataset:
+  train_split: 0.9
+  val_split: 0.1
