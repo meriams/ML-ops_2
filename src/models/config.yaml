@@ -3,7 +3,7 @@
 hyperparameters:
   batch_size: 1
   lr: 1e-1
-  num_epochs: 1
+  num_epochs: 50
 
 dataset:
   train_split: 0.90
