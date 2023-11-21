@@ -1,0 +1,4 @@
+[core]
+    remote = myremote
+[remote "myremote"]
+    url = gs://fer2013_mlops/data
