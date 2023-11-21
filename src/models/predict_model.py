@@ -2,7 +2,7 @@
 import torch.nn as nn
 import torch.nn.functional as F
  
- 
+ # classs for model 
  
 class EmotionNet(nn.Module):
     network_config = [32, 32, 'M', 64, 64, 'M', 128, 128, 'M']
