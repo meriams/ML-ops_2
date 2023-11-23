@@ -1,0 +1,37 @@
+{
+    "os": "macOS-12.6.3-arm64-arm-64bit",
+    "python": "3.9.18",
+    "heartbeatAt": "2023-11-21T13:56:21.615046",
+    "startedAt": "2023-11-21T13:56:21.009305",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/Users/merjmalshawi/Desktop/ML-ops_2/src/models/train_model.py",
+    "codePathLocal": "src/models/train_model.py",
+    "codePath": "src/models/train_model.py",
+    "git": {
+        "remote": "https://github.com/meriams/ML-ops_2.git",
+        "commit": "6453728c45e2a9fcaf9a8ada736a90a10c93f214"
+    },
+    "email": "114403637+meriams@users.noreply.github.com",
+    "root": "/Users/merjmalshawi/Desktop/ML-ops_2",
+    "host": "MacBook-Pro",
+    "username": "merjmalshawi",
+    "executable": "/Users/merjmalshawi/miniconda3/envs/ML-ops/bin/python",
+    "cpu_count": 8,
+    "cpu_count_logical": 8,
+    "disk": {
+        "/": {
+            "total": 460.4317207336426,
+            "used": 21.767330169677734
+        }
+    },
+    "gpuapple": {
+        "type": "arm",
+        "vendor": "Apple"
+    },
+    "memory": {
+        "total": 16.0
+    }
+}

@@ -10,8 +10,8 @@ WORKDIR /
 COPY requirements.txt /
 
 # Install any needed packages specified in requirements.txt
-# --no-cache-dir?
-RUN pip install -r requirements.txt
+
+RUN pip install -r requirements.txt 
 
 # Copy the rest of the application code into the container
 COPY . /
@@ -21,4 +21,8 @@ COPY . /
 
 # Define the command to run your application
 # unbuffered output otherwise can't see print statements
-CMD [ "python", "-u", "train.py" ]
+CMD [ "python", "-u", "src/models/train_model.py" ]
+
+
+
+
