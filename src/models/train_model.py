@@ -25,6 +25,8 @@ import os
 import hydra
 import wandb
 import cProfile
+from google.cloud import storage
+#from src.visualization.visualize import plot_training_history
 
 # Initialize wandb with your project name and your entity (your username or organization name)
 #wandb.init(project='MLops', entity='ml_ops_dtu')
@@ -40,12 +42,10 @@ model_output_path = os.path.join(models_folder, 'my_model.pth')  # Model output 
 # Define path for visualization (report/figures)
 visualization_folder = os.path.join(root_dir, 'reports', 'figures')  # Path to the visualization directory
 visualization_path = os.path.join(visualization_folder, 'training_plot.png')
-print(visualization_path)
 
 # Create directories if they don't exist
-os.makedirs(models_folder, exist_ok=True)
-os.makedirs(visualization_folder, exist_ok=True)
-
+#os.makedirs(models_folder, exist_ok=True)
+#os.makedirs(visualization_folder, exist_ok=True)
 
 
 @hydra.main(config_name='config.yaml')
@@ -244,8 +244,15 @@ def train_model(hcfg):
     if device == "cpu":
         model = model.to("cpu")
     #model_output = os.path.join('models', 'my_model.pth')
-    torch.save(model.state_dict(), model_output_path )
+    torch.save(model.state_dict(), model_output_path)
 
+    # Upload model artifact to Cloud Storage
+    model_directory = os.environ['AIP_MODEL_DIR']
+    storage_path = os.path.join(model_directory,'my_model.pth')
+    blob = storage.blob.Blob.from_string(storage_path, client=storage.Client())
+    blob.upload_from_filename(model_output_path)
+
+    # save the visualization
     plt.style.use("ggplot")
     plt.figure()
     plt.plot(history['train_acc'], label='train_acc')
@@ -256,17 +263,17 @@ def train_model(hcfg):
     plt.xlabel("#No of Epochs")
     plt.title('Training Loss and Accuracy on FER2013')
     plt.legend(loc='upper right')
-    #print("Plot path:", plot_path)
-    plt.savefig(visualization_path)
+    plt.savefig(visualization_path) 
+    #plot_training_history(history, visualization_path)
 
     # Log metrics to wandb
-   # wandb.log({
-   #     'epoch': epoch,
-   #     'train_loss': avg_train_loss,  # calculated training loss
-   #     'train_accuracy': train_correct,  # calculated training accuracy
-   #     'val_loss': avg_val_loss,  # calculated validation loss
-   #     'val_accuracy': val_correct  # calculated validation accuracy
-   # })
+    #wandb.log({
+     #   'epoch': epoch,
+     #   'train_loss': avg_train_loss,  # calculated training loss
+     #   'train_accuracy': train_correct,  # calculated training accuracy
+     #   'val_loss': avg_val_loss,  # calculated validation loss
+     #   'val_accuracy': val_correct  # calculated validation accuracy
+    #})
 
     #wandb.save('my_model.pth')  # Replace 'path_to_your_model.pth' with your actual model path
     #wandb.save('training_plot.png')
@@ -299,18 +306,18 @@ if __name__ == '__main__':
     train_model()
 
 # Run the function with cProfile
-  #  cProfile.run('train_model()', filename='train_model_profile.txt')
+    #cProfile.run('train_model()', filename='train_model_profile.txt')
     
     # Your existing code for hyperparameter optimization
    # sweep_config = {
     #    'method': 'random',
-     #   'metric': {'goal': 'maximize', 'name': 'val_accuracy'},
-      #  'parameters': {
-       #     'hyperparameters.batch_size': {'values': [16, 32, 64]},
-        #    'hyperparameters.lr': {'values': [0.01, 0.001, 0.0001]},
-         #   'hyperparameters.num_epochs': {'values': [5, 10, 15]}
-        #}
-    #}
+    #    'metric': {'goal': 'maximize', 'name': 'val_accuracy'},
+    #    'parameters': {
+    #        'hyperparameters.batch_size': {'values': [16, 32, 64]},
+    #        'hyperparameters.lr': {'values': [0.01, 0.001, 0.0001]},
+     #       'hyperparameters.num_epochs': {'values': [5, 10, 15]}
+    #    }
+   # }
 
     # Initialize the sweep
     #sweep_id = wandb.sweep(sweep_config, project='MLops', entity='ml_ops_dtu')
