@@ -10,9 +10,6 @@ import os
 import shutil
 import uvicorn
 import numpy as np
-import tensorflow as tf
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
 from fastapi import UploadFile, File
 from typing import Optional
 from fastapi import status
@@ -35,9 +32,13 @@ async def root():
 
 @app.post("/model/")
 async def model(data: UploadFile = File(...)):
-    
+
+    mnt_dir = os.environ.get("MNT_DIR", "/mnt/nfs/filestore")
+    model_pth = os.path.join(mnt_dir, "my_model.pth")
+    print("this is the dir")
+    print(model_pth)
     model = EmotionNet(num_of_channels=1, num_of_classes=7)
-    model.load_state_dict(torch.load("/Users/kamal/Documents/ML-ops_2/models/model.pth"))
+    model.load_state_dict(torch.load(model_pth))
     model = model.to("cpu")
     model.eval()
     
