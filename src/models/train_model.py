@@ -57,6 +57,11 @@ def train_model(hcfg):
     #train_split = hcfg.dataset.train_split
     #val_split = hcfg.dataset.val_split
 
+    storage_client = storage.Client(project="dtumlops-404710")
+    bucket = storage_client.bucket("fer2013_mlops")
+    blob = bucket.blob("my_model.pth")
+    blob.upload_from_filename(model_output_path)
+
     # configure the device to use for the training the mode
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     print(f'[INFO] Current training device: {device}')
@@ -168,7 +173,11 @@ def train_model(hcfg):
         val_correct = 0 
 
         # iterate through the training set
-        for (data, target) in train_dataloader:
+        for idx, (data, target) in enumerate(train_dataloader):
+            print("printing data shape")
+            print(data.shape)
+            if idx==1:
+                break
             # move the data into the device used for training,
             data, target = data.to(device), target.to(device)
     
@@ -198,7 +207,9 @@ def train_model(hcfg):
         with torch.set_grad_enabled(False):
     
             # iterate through the validation set
-            for (data, target) in val_dataloader:
+            for idx2, (data, target) in enumerate(val_dataloader):
+                if idx2==1:
+                    break
                 # move the data into the device used for testing
                 data, target = data.to(device), target.to(device)
     
@@ -246,11 +257,20 @@ def train_model(hcfg):
     #model_output = os.path.join('models', 'my_model.pth')
     torch.save(model.state_dict(), model_output_path)
 
-    # Upload model artifact to Cloud Storage
-    model_directory = os.environ['AIP_MODEL_DIR']
-    storage_path = os.path.join(model_directory,'my_model.pth')
-    blob = storage.blob.Blob.from_string(storage_path, client=storage.Client())
+    # bucket_name = "your-bucket-name"
+    # source_file_name = "local/path/to/file"
+    # destination_blob_name = "storage-object-name"
+    # project_number = os.environ["CLOUD_ML_PROJECT_ID"]
+    storage_client = storage.Client(project="dtumlops-404710")
+    bucket = storage_client.bucket("fer2013_mlops")
+    blob = bucket.blob("my_model.pth")
     blob.upload_from_filename(model_output_path)
+
+    # # Upload model artifact to Cloud Storage
+    # model_directory = os.environ['AIP_MODEL_DIR']
+    # storage_path = os.path.join(model_directory,'my_model.pth')
+    # blob = storage.blob.Blob.from_string(storage_path, client=storage.Client())
+    # blob.upload_from_filename(model_output_path)
 
     # save the visualization
     plt.style.use("ggplot")
@@ -279,28 +299,28 @@ def train_model(hcfg):
     #wandb.save('training_plot.png')
 
     # evaluate the model based on the test set
-    model = model.to(device)
-    with torch.set_grad_enabled(False):
-        # set the evaluation mode
-        model.eval()
+    # model = model.to(device)
+    # with torch.set_grad_enabled(False):
+    #     # set the evaluation mode
+    #     model.eval()
     
-        # initialize a list to keep track of our predictions
-        predictions = []
+    #     # initialize a list to keep track of our predictions
+    #     predictions = []
     
-        # iterate through the test set
-        for (data, _) in test_dataloader:
-            # move the data into the device used for testing
-            data = data.to(device)
+    #     # iterate through the test set
+    #     for (data, _) in test_dataloader:
+    #         # move the data into the device used for testing
+    #         data = data.to(device)
     
-            # perform a forward pass and calculate the training loss
-            output = model(data)
-            output = output.argmax(axis=1).cpu().numpy()
-            predictions.extend(output)
+    #         # perform a forward pass and calculate the training loss
+    #         output = model(data)
+    #         output = output.argmax(axis=1).cpu().numpy()
+    #         predictions.extend(output)
     
     # evaluate the network
-    print("[INFO] evaluating network...")
-    actual = [label for _, label in test_data]
-    print(classification_report(actual, predictions, target_names=test_data.classes))
+    # print("[INFO] evaluating network...")
+    # actual = [label for _, label in test_data]
+    # print(classification_report(actual, predictions, target_names=test_data.classes))
 
 if __name__ == '__main__':
     train_model()
