@@ -52,7 +52,7 @@ COPY ./requirements.txt /requirements.txt
 COPY ./src /
 
 # Install production dependencies.
-RUN pip3 install -r requirements.txt --no-cache-dir && \
+RUN pip3 install -r requirements.txt --no-cache-dir
 
 # Ensure the script is executable
 RUN chmod +x gcsfuse_run_train.sh
