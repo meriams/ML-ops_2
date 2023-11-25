@@ -13,6 +13,7 @@ COPY . /
 
 # Install system dependencies
 RUN set -e; \
+    apt-get update -y && \
     apt-get install -y --no-install-recommends python3.9 python3.9-dev python3-pip && \
     apt-get install -y lsb-release && \
     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 && \
