@@ -1,7 +1,8 @@
 # Use an official Python runtime as a parent image
 # linux/amd to run via emulation on apple silicon, removing builds image against arm64 but crashes on run
 # caveat is to give flag when running linux/amd64 image: docker run --platform linux/amd64 mlops
-FROM --platform=linux/amd64 python:3.9-slim-buster 
+# FROM --platform=linux/amd64 python:3.9-slim-buster 
+FROM nvidia/cuda:11.3.1-cudnn8-runtime-ubuntu20.04
 
 # Set the working directory in the container
 WORKDIR /
@@ -22,8 +23,3 @@ COPY . /
 # Define the command to run your application
 # unbuffered output otherwise can't see print statements
 CMD [ "python", "-u", "src/models/train_model.py" ]
-
-
-
-
-
