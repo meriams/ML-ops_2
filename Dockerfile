@@ -11,8 +11,11 @@ WORKDIR /
 COPY requirements.txt /
 
 # Install any needed packages specified in requirements.txt
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends python3-pip && \
+    pip3 install -r requirements.txt --no-cache-dir && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN pip install -r requirements.txt --no-cache-dir
 
 # Copy the rest of the application code into the container
 COPY . /
