@@ -4,13 +4,6 @@
 FROM nvidia/cuda:11.3.1-cudnn8-runtime-ubuntu20.04
 FROM python:3.9
 
-# Set the working directory in the container
-WORKDIR /
-
-# Copy the requirements file into the container at /app
-COPY requirements.txt /
-
-COPY . /
 
 # Install system dependencies
 # RUN set -e; \
@@ -47,9 +40,11 @@ ENV MNT_DIR /mnt/gcs
 ENV BUCKET fer2013_mlops
 
 # Copy local code to the container image.
+# Set the working directory in the container
 WORKDIR /
-COPY ./requirements.txt /requirements.txt
-COPY ./src /
+# Copy the requirements file into the container at /app
+COPY requirements.txt /
+COPY . /
 
 # Install production dependencies.
 RUN pip3 install -r requirements.txt --no-cache-dir
