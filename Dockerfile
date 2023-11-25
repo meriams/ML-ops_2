@@ -62,4 +62,4 @@ RUN chmod +x gcsfuse_run_train.sh
 ENTRYPOINT ["/usr/bin/tini", "--"] 
 
 # Pass the startup script as arguments to Tini
-CMD ["/gcsfuse_run.sh"]
+CMD ["/gcsfuse_run_train.sh"]
