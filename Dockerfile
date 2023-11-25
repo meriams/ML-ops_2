@@ -12,7 +12,9 @@ COPY requirements.txt /
 
 # Install any needed packages specified in requirements.txt
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends python3-pip && \
+    apt-get install -y --no-install-recommends python3.9 python3.9-dev python3-pip && \
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 && \
+    update-alternatives --install /usr/local/bin/python python /usr/bin/python3.9 1 && \
     pip3 install -r requirements.txt --no-cache-dir && \
     rm -rf /var/lib/apt/lists/*
 
