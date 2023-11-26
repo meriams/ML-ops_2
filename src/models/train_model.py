@@ -57,11 +57,6 @@ def train_model(hcfg):
     #train_split = hcfg.dataset.train_split
     #val_split = hcfg.dataset.val_split
 
-    storage_client = storage.Client(project="dtumlops-404710")
-    bucket = storage_client.bucket("fer2013_mlops")
-    blob = bucket.blob("my_model.pth")
-    blob.upload_from_filename(model_output_path)
-
     # configure the device to use for the training the mode
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     print(f'[INFO] Current training device: {device}')
@@ -299,28 +294,28 @@ def train_model(hcfg):
     #wandb.save('training_plot.png')
 
     # evaluate the model based on the test set
-    # model = model.to(device)
-    # with torch.set_grad_enabled(False):
-    #     # set the evaluation mode
-    #     model.eval()
+    model = model.to(device)
+    with torch.set_grad_enabled(False):
+        # set the evaluation mode
+        model.eval()
     
-    #     # initialize a list to keep track of our predictions
-    #     predictions = []
+        # initialize a list to keep track of our predictions
+        predictions = []
     
-    #     # iterate through the test set
-    #     for (data, _) in test_dataloader:
-    #         # move the data into the device used for testing
-    #         data = data.to(device)
+        # iterate through the test set
+        for (data, _) in test_dataloader:
+            # move the data into the device used for testing
+            data = data.to(device)
     
-    #         # perform a forward pass and calculate the training loss
-    #         output = model(data)
-    #         output = output.argmax(axis=1).cpu().numpy()
-    #         predictions.extend(output)
+            # perform a forward pass and calculate the training loss
+            output = model(data)
+            output = output.argmax(axis=1).cpu().numpy()
+            predictions.extend(output)
     
     # evaluate the network
-    # print("[INFO] evaluating network...")
-    # actual = [label for _, label in test_data]
-    # print(classification_report(actual, predictions, target_names=test_data.classes))
+    print("[INFO] evaluating network...")
+    actual = [label for _, label in test_data]
+    print(classification_report(actual, predictions, target_names=test_data.classes))
 
 if __name__ == '__main__':
     train_model()
