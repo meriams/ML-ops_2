@@ -31,27 +31,20 @@ from google.cloud import storage
 print('Imports ok')
 
 ###################################################################
+PROJECT_DIR = os.environ.get("GITHUB_WORKSPACE", None)
 
 # Checking Input Shape of Train Images
-#def test_input_image_shape():
-# img = cv2.imread("/Users/kamal/Documents/ML-ops_2/data/raw/train/angry/Training_3908.jpg")
-# train_height, train_width, train_channels = img.shape
-# print(' -> Train image shape', train_height, train_width, train_channels)
-
-storage_client = storage.Client(project="dtumlops-404710")
-bucket = storage_client.bucket("fer2013_mlops")
-blob = bucket.blob("my_model.pth")
-
-# Download the model file to the specified path
-blob.download_to_filename("my_model.pth")
-
+def test_input_image_shape():
+    img = cv2.imread(os.path.join(PROJECT_DIR, "data/raw/train/angry/Training_3908.jpg"))
+    train_height, train_width, train_channels = img.shape
+    print(' -> Train image shape', train_height, train_width, train_channels)
 
 
 # Checking Input Shape of Test Images
-#def test_input_image_shape():
-img = cv2.imread("/Users/kamal/Documents/ML-ops_2/data/raw/test/angry/PrivateTest_88305.jpg")
-test_height, test_width, test_channels = img.shape
-print (' -> Test image shape', test_height, test_width, test_channels)
+def test_input_image_shape():
+    img = cv2.imread(os.path.join(PROJECT_DIR, "data/raw/test/angry/PrivateTest_88305.jpg"))
+    test_height, test_width, test_channels = img.shape
+    print (' -> Test image shape', test_height, test_width, test_channels)
 
 
 ###################################################################
