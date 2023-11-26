@@ -26,7 +26,7 @@ import hydra
 import numpy as np
 import cv2
 import pytest
-from tests import _PATH_DATA
+from google.cloud import storage
 
 print('Imports ok')
 
@@ -34,9 +34,18 @@ print('Imports ok')
 
 # Checking Input Shape of Train Images
 #def test_input_image_shape():
-img = cv2.imread("/Users/kamal/Documents/ML-ops_2/data/raw/train/angry/Training_3908.jpg")
-train_height, train_width, train_channels = img.shape
-print(' -> Train image shape', train_height, train_width, train_channels)
+# img = cv2.imread("/Users/kamal/Documents/ML-ops_2/data/raw/train/angry/Training_3908.jpg")
+# train_height, train_width, train_channels = img.shape
+# print(' -> Train image shape', train_height, train_width, train_channels)
+
+storage_client = storage.Client(project="dtumlops-404710")
+bucket = storage_client.bucket("fer2013_mlops")
+blob = bucket.blob("my_model.pth")
+
+# Download the model file to the specified path
+blob.download_to_filename("my_model.pth")
+
+
 
 # Checking Input Shape of Test Images
 #def test_input_image_shape():
@@ -61,16 +70,7 @@ def train_transformer():
      # Load all the images whithin the specified folder and apply different augmentation 
      # Get the absolute path of the current file's directory
 
-current_file_dir = os.path.dirname(os.path.abspath(__file__))
-# Traverse two directories up from the current file's directory
-ROOT_DIR = os.path.abspath(os.path.join(current_file_dir, '..'))
-DATASET_FOLDER = os.path.join(ROOT_DIR, "data")
-trainDirectory = os.path.join(DATASET_FOLDER, "raw/train")
-
-train_data = datasets.ImageFolder(trainDirectory, transform=train_transformer)
-print(type(train_data))
-
-classes = train_data.classes
+classes = 7 #! Should be fetched from the model def file
 class_labels_list = classes
 
 number_of_classes = len(classes) 
