@@ -23,6 +23,7 @@ jobs:
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1.2.0'
       with:
+        credentials_json: ${{ secrets.SERVICE_KEY }}
         service_account: '456130518107-compute@developer.gserviceaccount.com'
     - name: Install dependencies
       run: |
