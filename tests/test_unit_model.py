@@ -66,7 +66,7 @@ def train_transformer():
 classes = 7 #! Should be fetched from the model def file
 class_labels_list = classes
 
-number_of_classes = len(classes) 
+number_of_classes = classes 
 print(number_of_classes) # 7 test for number of classes
 
 
