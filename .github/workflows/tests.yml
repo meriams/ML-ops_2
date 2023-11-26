@@ -26,7 +26,7 @@ jobs:
         mkdir ~/data/raw/train/angry
     - name: dvc pull test files
       run: |
-        dvc pull Training_3908.jpg --out ~/data/raw/train/angry/Training_3908.jpg
+        dvc pull data/raw/train/angry/Training_3908.jpg --out ~/data/raw/train/angry/Training_3908.jpg
     - name: Test with pytest
       run: |
         pip install pytest
