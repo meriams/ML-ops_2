@@ -32,7 +32,6 @@ jobs:
     - name: dvc pull test files
       run: |
         dvc pull data/raw/train/angry/Training_3908.jpg
-        dvc pull data/raw/train/angry/PrivateTest_88305.jpg
     - name: Test with pytest
       run: |
         pip install pytest

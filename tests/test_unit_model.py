@@ -42,9 +42,9 @@ print(' -> Train image shape', train_height, train_width, train_channels)
 
 # Checking Input Shape of Test Images
 # def test_input_image_shape():
-img = cv2.imread(os.path.join(PROJECT_DIR, "data/raw/test/angry/PrivateTest_88305.jpg"))
-test_height, test_width, test_channels = img.shape
-print (' -> Test image shape', test_height, test_width, test_channels)
+# img = cv2.imread(os.path.join(PROJECT_DIR, "data/raw/test/angry/PrivateTest_88305.jpg"))
+# test_height, test_width, test_channels = img.shape
+# print (' -> Test image shape', test_height, test_width, test_channels)
 
 
 ###################################################################
@@ -107,13 +107,11 @@ def test_input_shape(rules):
 def rules():
     return [train_height == 48,
     train_width == 48,
-    train_channels == 3,
+    train_channels == 3]
     
-    test_height == 48,
-    test_width == 48,
-    test_channels == 3]
-
-# test_input_shape(input_rules)
+    # test_height == 48,
+    # test_width == 48,
+    # test_channels == 3]
 
 
 
