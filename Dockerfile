@@ -50,11 +50,11 @@ COPY . /
 RUN pip3 install -r requirements.txt --no-cache-dir
 
 # Ensure the script is executable
-RUN chmod +x gcsfuse_run_train.sh
+RUN chmod +x /src/gcsfuse_run_train.sh
 
 # Use tini to manage zombie processes and signal forwarding
 # https://github.com/krallin/tini
 ENTRYPOINT ["/usr/bin/tini", "--"] 
 
 # Pass the startup script as arguments to Tini
-CMD ["/gcsfuse_run_train.sh"]
+CMD ["/src/gcsfuse_run_train.sh"]
