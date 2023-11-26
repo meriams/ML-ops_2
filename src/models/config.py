@@ -18,12 +18,12 @@ current_file_dir = os.path.dirname(os.path.abspath(__file__))
 # Traverse two directories up from the current file's directory
 ROOT_DIR = os.path.abspath(os.path.join(current_file_dir, '..', '..'))
 
-# DATASET_FOLDER = os.path.join(ROOT_DIR, "data")
-# trainDirectory = os.path.join(DATASET_FOLDER, "raw/train")
-# testDirectory = os.path.join(DATASET_FOLDER, "raw/test")
-mnt_dir = os.environ.get("MNT_DIR", "/mnt/nfs/filestore")
-trainDirectory = os.path.join(mnt_dir, "fer2013_mlops/data/train")
-testDirectory = os.path.join(mnt_dir, "fer2013_mlops/data/test")
+DATASET_FOLDER = os.path.join(ROOT_DIR, "data")
+trainDirectory = os.path.join(DATASET_FOLDER, "raw/train")
+testDirectory = os.path.join(DATASET_FOLDER, "raw/test")
+# mnt_dir = os.environ.get("MNT_DIR", "/mnt/nfs/filestore")
+# trainDirectory = os.path.join(mnt_dir, "fer2013_mlops/data/train")
+# testDirectory = os.path.join(mnt_dir, "fer2013_mlops/data/test")
 
 # Define paths for model output and visualization
 MODELS_FOLDER = os.path.join(ROOT_DIR, 'models')
