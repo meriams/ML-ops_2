@@ -36,6 +36,7 @@ PROJECT_DIR = os.environ.get("GITHUB_WORKSPACE", None)
 # Checking Input Shape of Train Images
 # def test_input_image_shape():
 img = cv2.imread(os.path.join(PROJECT_DIR, "data/raw/train/angry/Training_3908.jpg"))
+# img = cv2.imread("data/raw/train/angry/Training_3908.jpg")
 train_height, train_width, train_channels = img.shape
 print(' -> Train image shape', train_height, train_width, train_channels)
 
@@ -63,12 +64,20 @@ def train_transformer():
      # Load all the images whithin the specified folder and apply different augmentation 
      # Get the absolute path of the current file's directory
 
-classes = 7 #! Should be fetched from the model def file
+current_file_dir = os.path.dirname(os.path.abspath(__file__))
+# Traverse two directories up from the current file's directory
+ROOT_DIR = os.path.abspath(os.path.join(current_file_dir, '..'))
+DATASET_FOLDER = os.path.join(ROOT_DIR, "data")
+trainDirectory = os.path.join(DATASET_FOLDER, "raw/train")
+
+train_data = datasets.ImageFolder(trainDirectory, transform=train_transformer)
+print(type(train_data))
+
+classes = train_data.classes
 class_labels_list = classes
 
-number_of_classes = classes 
+number_of_classes = len(classes) 
 print(number_of_classes) # 7 test for number of classes
-
 
 ###################################################################
     # Test for class number and labels correctness
