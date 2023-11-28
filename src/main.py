@@ -34,7 +34,7 @@ async def root():
 async def model(data: UploadFile = File(...)):
 
     mnt_dir = os.environ.get("MNT_DIR", "/mnt/nfs/filestore")
-    model_pth = os.path.join(mnt_dir, "my_model.pth")
+    model_pth = os.path.join(mnt_dir, "fer2013_mlops/my_model.pth")
     print("this is the dir")
     print(model_pth)
     model = EmotionNet(num_of_channels=1, num_of_classes=7)
@@ -57,7 +57,7 @@ async def model(data: UploadFile = File(...)):
 
     out = model(transformed_image)
 
-    res_mapping = {"0": "angry", "1": "disgust", "2": "fear", "3": "happy", "4": "neutral", "5": "sad", "6" : "disgust", "7": "surprised"} #! fix this later
+    res_mapping = {{"0": 'angry', "1": 'disgust', "2": 'fear', "3": 'happy', "4": 'neutral', "5": 'sad', "6": 'surprise'}} #! fix this later
     index = torch.argmax(torch.nn.functional.softmax(out, dim=1)).detach().numpy().item()
     
     response = {
