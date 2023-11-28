@@ -38,7 +38,7 @@ async def model(data: UploadFile = File(...)):
     print("this is the dir")
     print(model_pth)
     model = EmotionNet(num_of_channels=1, num_of_classes=7)
-    model.load_state_dict(torch.load(model_pth))
+    model.load_state_dict(torch.load(f=model_pth, map_location=torch.device('cpu')))
     model = model.to("cpu")
     model.eval()
     
