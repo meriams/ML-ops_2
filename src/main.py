@@ -34,7 +34,7 @@ async def root():
 async def model(data: UploadFile = File(...)):
 
     mnt_dir = os.environ.get("MNT_DIR", "/mnt/nfs/filestore")
-    model_pth = os.path.join(mnt_dir, "fer2013_mlops/my_model.pth")
+    model_pth = os.path.join(mnt_dir, "my_model.pth")
     print("this is the dir")
     print(model_pth)
     model = EmotionNet(num_of_channels=1, num_of_classes=7)
