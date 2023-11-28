@@ -57,7 +57,7 @@ async def model(data: UploadFile = File(...)):
 
     out = model(transformed_image)
 
-    res_mapping = {{"0": 'angry', "1": 'disgust', "2": 'fear', "3": 'happy', "4": 'neutral', "5": 'sad', "6": 'surprise'}} #! fix this later
+    res_mapping = {"0": 'angry', "1": 'disgust', "2": 'fear', "3": 'happy', "4": 'neutral', "5": 'sad', "6": 'surprise'}
     index = torch.argmax(torch.nn.functional.softmax(out, dim=1)).detach().numpy().item()
     
     response = {
