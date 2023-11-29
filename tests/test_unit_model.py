@@ -130,7 +130,7 @@ def rules():
 @pytest.fixture
 def weight_rules():
     t1 = torch.tensor([7., 7., 7., 7., 7., 7., 7.])
-    return t1.numpy()
+    return t1.numpy() #to array
 
 def test_class_weight(weight_rules):
     class_count = Counter(train_data.classes)
@@ -138,19 +138,4 @@ def test_class_weight(weight_rules):
     # depending on the number of samples available 
     class_weight = torch.Tensor([len(train_data.classes) / c
                                 for c in pd.Series(class_count).sort_index().values])
-    assert class_weight.numpy().all() == weight_rules.all()
-  
-class_count = Counter(train_data.classes)
-    # depending on the number of samples available 
-class_weight = torch.Tensor([len(train_data.classes) / c
-                                for c in pd.Series(class_count).sort_index().values])  
-print(class_weight)
-
-
-#             # count each labels within each classes 
-# class_count = Counter(train_data.classes)
-# print(f'[INFO] Total sample: {class_count}')
-#             # depending on the number of samples available 
-# class_weight = torch.Tensor([len(train_data.classes) / c
-#                                         for c in pd.Series(class_count).sort_index().values])
-# print(type(class_weight),class_weight)
+    assert class_weight.numpy().all() == weight_rules.all() #all elements are equal
