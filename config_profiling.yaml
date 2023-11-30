@@ -1,0 +1,10 @@
+#config.yaml
+
+hyperparameters:
+  batch_size: 1
+  lr: 1e-1
+  num_epochs: 1
+
+dataset:
+  train_split: 0.90
+  val_split: 0.10
