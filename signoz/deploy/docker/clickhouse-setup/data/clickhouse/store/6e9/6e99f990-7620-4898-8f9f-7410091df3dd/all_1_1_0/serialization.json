@@ -1,0 +1,1 @@
+{"columns":[{"kind":"Default","name":"collector_id","num_defaults":0,"num_rows":1},{"kind":"Default","name":"data","num_defaults":0,"num_rows":1},{"kind":"Default","name":"exporter_id","num_defaults":0,"num_rows":1},{"kind":"Default","name":"tenant","num_defaults":0,"num_rows":1},{"kind":"Default","name":"timestamp","num_defaults":0,"num_rows":1}],"version":0}

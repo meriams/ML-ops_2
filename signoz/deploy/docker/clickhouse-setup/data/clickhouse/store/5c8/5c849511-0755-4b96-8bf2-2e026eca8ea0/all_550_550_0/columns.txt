@@ -1,0 +1,6 @@
+columns format version: 1
+4 columns:
+`tagKey` LowCardinality(String)
+`tagType` Enum8('tag' = 1, 'resource' = 2)
+`dataType` Enum8('string' = 1, 'bool' = 2, 'float64' = 3)
+`isColumn` Bool

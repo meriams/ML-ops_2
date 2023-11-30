@@ -1,0 +1,8 @@
+columns format version: 1
+6 columns:
+`env` LowCardinality(String)
+`temporality` LowCardinality(String)
+`metric_name` LowCardinality(String)
+`fingerprint` UInt64
+`timestamp_ms` Int64
+`labels` String
