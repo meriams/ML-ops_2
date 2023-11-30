@@ -1,9 +1,0 @@
-columns format version: 1
-7 columns:
-`timestamp` DateTime
-`tagKey` LowCardinality(String)
-`tagType` Enum8('tag' = 1, 'resource' = 2)
-`tagDataType` Enum8('string' = 1, 'bool' = 2, 'int64' = 3, 'float64' = 4)
-`stringTagValue` String
-`int64TagValue` Nullable(Int64)
-`float64TagValue` Nullable(Float64)

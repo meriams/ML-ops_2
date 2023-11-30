@@ -1,4 +1,0 @@
-columns format version: 1
-2 columns:
-`name` String
-`datatype` String

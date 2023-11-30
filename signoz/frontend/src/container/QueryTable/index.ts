@@ -1,1 +1,0 @@
-export { QueryTable } from './QueryTable';

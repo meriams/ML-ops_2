@@ -1,4 +1,0 @@
-columns format version: 1
-2 columns:
-`name` LowCardinality(String)
-`serviceName` LowCardinality(String)

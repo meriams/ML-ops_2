@@ -1,1 +1,0 @@
-export const HIGHLIGHTED_DELAY = 10000;
