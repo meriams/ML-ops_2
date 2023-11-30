@@ -8,10 +8,10 @@ from torchvision.transforms import ToTensor
 from torch.utils.data import random_split 
 from torch.utils.data import DataLoader 
 import config as cfg
-from utils  import EarlyStopping
-from utils  import LRScheduler 
+from src.models.utils  import EarlyStopping
+from src.models.utils  import LRScheduler 
 from torchvision import transforms 
-from model import EmotionNet 
+from src.models.predict_model import EmotionNet 
 from torchvision import datasets 
 import matplotlib.pyplot as plt 
 from collections import Counter 
@@ -24,7 +24,7 @@ import math
 import os 
 import hydra
 from torch.profiler import profile, record_function, ProfilerActivity
-from train import train_model
+from src.models.train_model import train_model
 import torchvision.models as models
 
 
