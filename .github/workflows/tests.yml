@@ -36,6 +36,8 @@ jobs:
       run: |
         pip install pytest
         pytest -v
+        pytest --cov 
+        pytest --cov --cov-report=html:coverage_re
 
 
 

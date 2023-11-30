@@ -27,3 +27,4 @@ dvc-objects==1.2.0
 dvc-render==0.6.0
 dvc-studio-client==0.16.1
 dvc-task==0.3.0
+pytest-cov==4.1.0
