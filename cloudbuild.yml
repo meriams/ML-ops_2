@@ -1,9 +1,12 @@
 steps:
+  # Below Used for building image for vertex AI. Only tested on CPU. Not desgined to work on GPU.
   # - name: 'gcr.io/cloud-builders/docker'
   #   args: ['build', '-t', 'gcr.io/dtumlops-404710/mtrainimage', '-f', 'Dockerfile', '.']
   # - name: 'gcr.io/cloud-builders/docker'
   #   args: ['push', 'gcr.io/dtumlops-404710/mtrainimage']
 
+  # Below image is fastapi app used for inference. Deployed to Cloud Run.
+  # No autodeploy is set up. Needs to be manually selected from console
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/dtumlops-404710/apiimage', '-f', 'api.Dockerfile', '.']
   - name: 'gcr.io/cloud-builders/docker'

@@ -12,14 +12,13 @@ import numpy as np
 from fastapi import UploadFile, File
 from typing import Optional
 from fastapi import status
-# import sys
-# sys.path.append('/Users/kamal/Documents/ML-ops_2/src/models/predict_model')
 import torch
 from models import EmotionNet
 # breakpoint()
 from PIL import Image
 import io
 from torchvision.transforms import Compose, Grayscale, ToTensor
+from typing import Any
 ''' Open telemerty stuff (only works locally) '''
 # from opentelemetry import trace
 # from opentelemetry.exporter.otlp.proto.http.trace_exporter import (
@@ -46,8 +45,9 @@ async def root():
 
 
 @app.post("/model/")
-async def model(data: UploadFile = File(...)):
+async def model(data: UploadFile = File(...)) -> dict[str, Any]:
 
+    # Loads model checkpoint from cloud storage using FUSE to simulate a filesystem
     mnt_dir = os.environ.get("MNT_DIR", "/mnt/nfs/filestore")
     model_pth = os.path.join(mnt_dir, "my_model.pth")
     print("this is the dir")
@@ -57,7 +57,6 @@ async def model(data: UploadFile = File(...)):
     ''' Open telemerty stuff (only works locally) '''
     # current_span = trace.get_current_span()
 
-    # model_pth = "/Users/kamal/Documents/ML-ops_2/src/models/models/my_model.pth"
     model = EmotionNet(num_of_channels=1, num_of_classes=7)
     model.load_state_dict(torch.load(f=model_pth, map_location=torch.device('cpu')))
     model = model.to("cpu")

@@ -47,12 +47,6 @@ visualization_path = os.path.join(visualization_folder, 'training_plot.png')
 
 @hydra.main(config_name='config.yaml')
 def train_model(hcfg):
-    # Access hyperparameters from the config
-    #batch_size = hcfg.hyperparameters.batch_size
-    #learning_rate = hcfg.hyperparameters.lr
-    #num_epochs = hcfg.hyperparameters.num_epochs
-    #train_split = hcfg.dataset.train_split
-    #val_split = hcfg.dataset.val_split
     
     # Initialize wandb with your project name and your entity (your username or organization name)
     if hcfg.wandb:
@@ -264,20 +258,11 @@ def train_model(hcfg):
     #model_output = os.path.join('models', 'my_model.pth')
     torch.save(model.state_dict(), model_output_path)
 
-    # bucket_name = "your-bucket-name"
-    # source_file_name = "local/path/to/file"
-    # destination_blob_name = "storage-object-name"
-    # project_number = os.environ["CLOUD_ML_PROJECT_ID"]
+    # Upload model artifact to Cloud Storage
     storage_client = storage.Client(project="dtumlops-404710")
     bucket = storage_client.bucket("fer2013_mlops")
     blob = bucket.blob("my_model.pth")
     blob.upload_from_filename(model_output_path)
-
-    # # Upload model artifact to Cloud Storage
-    # model_directory = os.environ['AIP_MODEL_DIR']
-    # storage_path = os.path.join(model_directory,'my_model.pth')
-    # blob = storage.blob.Blob.from_string(storage_path, client=storage.Client())
-    # blob.upload_from_filename(model_output_path)
 
     # save the visualization
     plt.style.use("ggplot")
