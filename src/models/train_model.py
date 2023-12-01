@@ -29,8 +29,8 @@ from google.cloud import storage
 #from src.visualization.visualize import plot_training_history
 
 # Initialize wandb with your project name and your entity (your username or organization name)
-#wandb.init(project='MLops', entity='ml_ops_dtu')
-#wandb.init(config=cfg) # for running a hyperparameter optimization sweep
+wandb.init(project='MLops', entity='ml_ops_dtu')
+wandb.init(config=cfg) # for running a hyperparameter optimization sweep
 
 # Get the absolute path to the directory of the current script (train_model.py)
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -282,16 +282,16 @@ def train_model(hcfg):
     #plot_training_history(history, visualization_path)
 
     # Log metrics to wandb
-    #wandb.log({
-     #   'epoch': epoch,
-     #   'train_loss': avg_train_loss,  # calculated training loss
-     #   'train_accuracy': train_correct,  # calculated training accuracy
-     #   'val_loss': avg_val_loss,  # calculated validation loss
-     #   'val_accuracy': val_correct  # calculated validation accuracy
-    #})
+    wandb.log({
+       'epoch': epoch,
+       'train_loss': avg_train_loss,  # calculated training loss
+       'train_accuracy': train_correct,  # calculated training accuracy
+       'val_loss': avg_val_loss,  # calculated validation loss
+       'val_accuracy': val_correct  # calculated validation accuracy
+    })
 
     #wandb.save('my_model.pth')  # Replace 'path_to_your_model.pth' with your actual model path
-    #wandb.save('training_plot.png')
+    wandb.save('training_plot.png')
 
     # evaluate the model based on the test set
     model = model.to(device)
@@ -324,18 +324,18 @@ if __name__ == '__main__':
     #cProfile.run('train_model()', filename='train_model_profile.txt')
     
     # Your existing code for hyperparameter optimization
-   # sweep_config = {
-    #    'method': 'random',
-    #    'metric': {'goal': 'maximize', 'name': 'val_accuracy'},
-    #    'parameters': {
-    #        'hyperparameters.batch_size': {'values': [16, 32, 64]},
-    #        'hyperparameters.lr': {'values': [0.01, 0.001, 0.0001]},
-     #       'hyperparameters.num_epochs': {'values': [5, 10, 15]}
-    #    }
-   # }
+    sweep_config = {
+        'method': 'random',
+        'metric': {'goal': 'maximize', 'name': 'val_accuracy'},
+        'parameters': {
+            'hyperparameters.batch_size': {'values': [16, 32, 64]},
+            'hyperparameters.lr': {'values': [0.01, 0.001, 0.0001]},
+            'hyperparameters.num_epochs': {'values': [5, 10, 15]}
+        }
+    }
 
     # Initialize the sweep
-    #sweep_id = wandb.sweep(sweep_config, project='MLops', entity='ml_ops_dtu')
+    sweep_id = wandb.sweep(sweep_config, project='MLops', entity='ml_ops_dtu')
 
     # Run the sweep
-    #wandb.agent(sweep_id, function=train_model)
+    wandb.agent(sweep_id, function=train_model)

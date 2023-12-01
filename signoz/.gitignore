@@ -1,0 +1,64 @@
+
+node_modules
+
+deploy/docker/environment_tiny/common_test
+frontend/node_modules
+frontend/.pnp
+frontend/i18n-translations-hash.json
+*.pnp.js
+
+# testing
+frontend/coverage
+
+# production
+frontend/build
+frontend/.vscode
+frontend/.yarnclean
+frontend/.temp_cache
+frontend/test-results
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/src/constants/env.ts
+
+.idea
+
+**/.vscode
+**/build
+**/storage
+**/locust-scripts/__pycache__/
+**/__debug_bin
+
+.env
+pkg/query-service/signoz.db
+
+pkg/query-service/tests/test-deploy/data/
+
+ee/query-service/signoz.db
+
+ee/query-service/tests/test-deploy/data/
+
+# local data
+*.db
+/deploy/docker/clickhouse-setup/data/
+/deploy/docker-swarm/clickhouse-setup/data/
+bin/
+
+*/query-service/queries.active
+
+# e2e
+
+e2e/node_modules/
+e2e/test-results/
+e2e/playwright-report/
+e2e/blob-report/
+e2e/playwright/.cache/
+e2e/.auth

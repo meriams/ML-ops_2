@@ -1,0 +1,45 @@
+name: "Run tests"
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Set up Python 3.10.13
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10.13
+        cache: 'pip'
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1.2.0'
+      with:
+        credentials_json: ${{ secrets.SERVICE_KEY }}
+        service_account: '456130518107-compute@developer.gserviceaccount.com'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements-test.txt
+    - name: dvc pull test files
+      run: |
+        dvc pull
+    - name: Test with pytest
+      run: |
+        pip install pytest
+        pytest -v
+        pytest --cov 
+        pytest --cov --cov-report=html:coverage_re
+
+
+
+
+        

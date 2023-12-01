@@ -21,11 +21,11 @@ ENV BUCKET fer2013_mlops
 
 # Copy local code to the container image.
 WORKDIR /
-COPY ./requirements.txt /requirements.txt
+COPY ./requirements-fastapi.txt /requirements-fastapi.txt
 COPY ./src /
 
 # Install production dependencies.
-RUN pip install --no-cache-dir --upgrade -r /requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /requirements-fastapi.txt
 
 # Ensure the script is executable
 RUN chmod +x gcsfuse_run.sh
