@@ -328,9 +328,8 @@ if __name__ == '__main__':
         'method': 'random',
         'metric': {'goal': 'maximize', 'name': 'val_accuracy'},
         'parameters': {
-            'hyperparameters.batch_size': {'values': [16, 32, 64]},
-            'hyperparameters.lr': {'values': [0.01, 0.001, 0.0001]},
-            'hyperparameters.num_epochs': {'values': [5, 10, 15]}
+            'hyperparameters.batch_size': {'values': [16, 32]},
+            'hyperparameters.lr': {'values': [0.1, 0.01]}
         }
     }
 
