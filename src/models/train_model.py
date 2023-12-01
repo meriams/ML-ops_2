@@ -28,9 +28,6 @@ import cProfile
 from google.cloud import storage
 #from src.visualization.visualize import plot_training_history
 
-# Initialize wandb with your project name and your entity (your username or organization name)
-wandb.init(project='MLops', entity='ml_ops_dtu')
-wandb.init(config=cfg) # for running a hyperparameter optimization sweep
 
 # Get the absolute path to the directory of the current script (train_model.py)
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -56,6 +53,11 @@ def train_model(hcfg):
     #num_epochs = hcfg.hyperparameters.num_epochs
     #train_split = hcfg.dataset.train_split
     #val_split = hcfg.dataset.val_split
+    
+    # Initialize wandb with your project name and your entity (your username or organization name)
+    if hcfg.wandb:
+        wandb.init(project='MLops', entity='ml_ops_dtu')
+        wandb.init(config=cfg) # for running a hyperparameter optimization sweep
 
     # configure the device to use for the training the mode
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -241,13 +243,14 @@ def train_model(hcfg):
         early_stopping(validation_loss)
     
         # Log metrics to wandb
-        wandb.log({
-            'epoch': epoch,
-            'train_loss': avg_train_loss,  # calculated training loss
-            'train_accuracy': train_correct,  # calculated training accuracy
-            'val_loss': avg_val_loss,  # calculated validation loss
-            'val_accuracy': val_correct  # calculated validation accuracy
-        })
+        if hcfg.wandb:
+            wandb.log({
+                'epoch': epoch,
+                'train_loss': avg_train_loss,  # calculated training loss
+                'train_accuracy': train_correct,  # calculated training accuracy
+                'val_loss': avg_val_loss,  # calculated validation loss
+                'val_accuracy': val_correct  # calculated validation accuracy
+            })
 
         # stop the training procedure due to no improvement while validating the model
         if early_stopping.early_stop_enabled:
@@ -290,9 +293,6 @@ def train_model(hcfg):
     plt.savefig(visualization_path) 
     #plot_training_history(history, visualization_path)
 
-    #wandb.save('my_model.pth')  # Replace 'path_to_your_model.pth' with your actual model path
-    # wandb.save('training_plot.png')
-
     # evaluate the model based on the test set
     model = model.to(device)
     with torch.set_grad_enabled(False):
@@ -317,24 +317,26 @@ def train_model(hcfg):
     actual = [label for _, label in test_data]
     print(classification_report(actual, predictions, target_names=test_data.classes))
 
+### Should probably use arg parse here to enable/disable sweep but it was 
 if __name__ == '__main__':
+
+    print("training!")    
     train_model()
 
-    # Run the function with cProfile
-        #cProfile.run('train_model()', filename='train_model_profile.txt')
-        
-        # Your existing code for hyperparameter optimization
-        # sweep_config = {
-        #     'method': 'grid',
-        #     'metric': {'goal': 'maximize', 'name': 'val_accuracy'},
-        #     'parameters': {
-        #         'hyperparameters.batch_size': {'values': [16, 32]},
-        #         'hyperparameters.lr': {'values': [0.1, 0.01]}
-        #     }
-        # }
+    ''' Ensure wandb is true in hydra config.yml'''
+    ''' Running sweep inside GCP engine gives weird broken pipe error '''
+    print("Running sweep!")
+    sweep_config = {
+        'method': 'grid',
+        'metric': {'goal': 'maximize', 'name': 'val_accuracy'},
+        'parameters': {
+            'hyperparameters.batch_size': {'values': [16, 32]},
+            'hyperparameters.lr': {'values': [0.1, 0.01]}
+        }
+    }
 
-        # # Initialize the sweep
-        # sweep_id = wandb.sweep(sweep_config, project='MLops', entity='ml_ops_dtu')
+    # Initialize the sweep
+    sweep_id = wandb.sweep(sweep_config, project='MLops', entity='ml_ops_dtu')
 
-        # # Run the sweep
-        # wandb.agent(sweep_id, function=train_model)
+    # Run the sweep
+    wandb.agent(sweep_id, function=train_model)
