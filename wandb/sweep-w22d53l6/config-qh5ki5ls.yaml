@@ -1,8 +1,0 @@
-wandb_version: 1
-
-hyperparameters.batch_size:
-  value: 64
-hyperparameters.lr:
-  value: 0.001
-hyperparameters.num_epochs:
-  value: 15
