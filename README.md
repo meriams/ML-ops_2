@@ -1,7 +1,26 @@
 ML-ops
 ==============================
 
-ML-ops project t  for cource
+## Running notes and reflections
+### GCP
+`Dockerfile` can be run on VertexAI CPU only. Getting cuda to work in the docker container was troublesome so we did not pursue it further on VertexAI. 
+
+Instead we decided to train the model on GCP Engine on a P4 Tesla without docker. A virtual env was created using conda and reqs installed from `requirements.txt`. The `train_model.py` is used, the model checkpoint is uploaded to the GCP bucket which also contains the data files. `dvc pull` was used to successfully pull data from GCP bucket to the VM in GCP Engine.  
+
+We use Cloud Run to deploy a FastAPI application for model inference. `api.Dockerfile` is used. The app fetches the model checkpoint from the cloud Bucket to build the model. Currently, the deployment is done manually, so whenever a new image is built and uploaded to the GCP container registry one has to manually update the cloud run. This could be automated in the future.
+
+### Wandb
+Simple scalar value profiling is done within the training script. Sweep did not work due to a networking issue in the GCP VM but the code is there and can be run locally.
+
+## GCP Monitoring
+Alerts are created in Cloud Run that get triggered on high CPU usage.
+
+## OpenTelemetry
+We did not deploy this as it required Kubernetes, but the `main.py` file supports integration with OpenTelemtetry. It can be run locally by first doing a docker-compose up on the Signoz  
+
+### GitHub CI
+- pytest is run against the `test/` directory and a test coverage report is uploaded as an artefact to GitHub.
+- `Dockerfile` and `api.Dockerfile` are built as images and uploaded to GCP container registry
 
 Project Organization
 ------------
