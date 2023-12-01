@@ -6,7 +6,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "models
 from models.train_model import train_model
 import torchvision.models as models
 
-
+''' Set wandb to false in config.yaml before running this '''
 def our_prof():
     with profile(
         activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
