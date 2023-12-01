@@ -35,11 +35,17 @@ We use Cloud Run to deploy a FastAPI application for model inference. `api.Docke
 ### Wandb
 Simple scalar value profiling is done within the training script. Sweep did not work due to a networking issue in the GCP VM but the code is there and can be run locally.
 
-## GCP Monitoring
+### GCP Monitoring
 Alerts are created in Cloud Run that get triggered on high CPU usage.
 
-## OpenTelemetry
-We did not deploy this as it required Kubernetes, but the `main.py` file supports integration with OpenTelemtetry. It can be run locally by first doing a docker-compose up on the Signoz  
+### OpenTelemetry
+We did not deploy this as it required Kubernetes, but the `main.py` file supports integration with OpenTelemtetry. It can be run locally by first doing a docker-compose up inside the Signoz dir: 
+
+```
+docker-compose -f docker/clickhouse-setup/docker-compose.yaml up -d
+```
+
+Then the relevant code can be uncommented in the `train_model.py` file and then run the app. Data should now be logged to the running SigNoz app.
 
 ### GitHub CI
 - pytest is run against the `test/` directory and a test coverage report is uploaded as an artefact to GitHub.
