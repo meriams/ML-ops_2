@@ -317,24 +317,24 @@ def train_model(hcfg):
     actual = [label for _, label in test_data]
     print(classification_report(actual, predictions, target_names=test_data.classes))
 
-if __name__ == '__main__':
-    train_model()
+    if __name__ == '__main__':
+        train_model()
 
-# Run the function with cProfile
-    #cProfile.run('train_model()', filename='train_model_profile.txt')
-    
-    # Your existing code for hyperparameter optimization
-    sweep_config = {
-        'method': 'random',
-        'metric': {'goal': 'maximize', 'name': 'val_accuracy'},
-        'parameters': {
-            'hyperparameters.batch_size': {'values': [16, 32]},
-            'hyperparameters.lr': {'values': [0.1, 0.01]}
+    # Run the function with cProfile
+        #cProfile.run('train_model()', filename='train_model_profile.txt')
+        
+        # Your existing code for hyperparameter optimization
+        sweep_config = {
+            'method': 'grid',
+            'metric': {'goal': 'maximize', 'name': 'val_accuracy'},
+            'parameters': {
+                'hyperparameters.batch_size': {'values': [16, 32]},
+                'hyperparameters.lr': {'values': [0.1, 0.01]}
+            }
         }
-    }
 
-    # Initialize the sweep
-    sweep_id = wandb.sweep(sweep_config, project='MLops', entity='ml_ops_dtu')
+        # Initialize the sweep
+        sweep_id = wandb.sweep(sweep_config, project='MLops', entity='ml_ops_dtu')
 
-    # Run the sweep
-    wandb.agent(sweep_id, function=train_model)
+        # Run the sweep
+        wandb.agent(sweep_id, function=train_model)
