@@ -88,4 +88,6 @@ target/
 # Mypy cache
 .mypy_cache/
 
-wandb/
+/wandb/
+/wandb/latest-run
+/outputs/

@@ -13,21 +13,21 @@ def our_prof():
         profile_memory=True,
         record_shapes=True,
         use_cuda=True,
-        on_trace_ready=tensorboard_trace_handler("./log/emotionnet")
+        # on_trace_ready=tensorboard_trace_handler("./log/emotionnet") ### for tensorboard 
     ) as prof:
 
         #test model for profiling reference
-        model = models.resnet18()
-        inputs = torch.randn(5, 3, 224, 224)
-        model(inputs)
+        # model = models.resnet18()
+        # inputs = torch.randn(5, 3, 224, 224)
+        # model(inputs)
 
-        # train_model()
+        train_model()
     
         # Print Profiler results
     print('CPU profiling', prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
     print('CUDA profiling', prof.key_averages().table(sort_by="cuda_time_total", row_limit=10))
 
-    # prof.export_chrome_trace("profile_trace.json") # trace of profiling
+    prof.export_chrome_trace("profile_trace.json") # comment out when using tensorboard
 
 if __name__ == "__main__":
     our_prof()
